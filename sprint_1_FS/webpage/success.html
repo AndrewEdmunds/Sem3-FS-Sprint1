@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Success</title>
+    <link rel="stylesheet" href="style2.css">
+    <meta http-equiv="refresh" content="5;url=http://localhost:3000" />
+  </head>
+  <body>
+    <h1>Form submitted successfully!</h1>
+    <p>Redirecting back to the homepage...</p>
+    <p>Your generated token: <span id="token"></span></p>
+
+    <script>
+      // Extract the token from the URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token');
+
+      // Set the generated token value
+      document.getElementById('token').textContent = token;
+
+      setTimeout(function() {
+        window.location.href = 'http://localhost:3000';
+      }, 10000); // Redirect after 10 seconds (10000 milliseconds)
+    </script>
+  </body>
+</html>
