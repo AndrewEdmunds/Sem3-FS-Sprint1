@@ -1,0 +1,14 @@
+{
+  "name": "sprint_1_fs",
+  "version": "1.0.0",
+  "description": "Entire Full stack javascript sprint 1, semester 3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrew Edmunds",
+  "license": "ISC",
+  "dependencies": {
+    "querystring": "^0.2.1"
+  }
+}
