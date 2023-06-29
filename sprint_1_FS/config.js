@@ -165,19 +165,34 @@ const deleteConfigValue = () => {
   }
 };
 
+//this function is specifically for the config reset command
+const createConfigFolder = () => {
+  if (fs.existsSync('config')) {
+    console.log('Config folder has been reset already');
+  } else {
+    try {
+      fs.mkdirSync('config');
+    } catch (error) {
+      console.error('Error resetting folder:', error);
+      return;
+    }
+  }
+};
+
 //resets the config file individually to its default state
 const resetConfig = () => {
-  console.log('Resetting configuration...');
+  console.log('Resetting ...');
   try {
-    const configPath = 'config/default.json';
-    const defaultConfig = JSON.parse(fs.readFileSync(configPath));
-
-    fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2));
-
-    console.log('Configuration reset successfully.');
+    fs.rmSync('config', { recursive: true });
   } catch (error) {
-    console.error('Error resetting configuration:', error);
+    console.error('Error resetting config directory:', error);
+    return;
   }
+
+  createConfigFolder();
+  addDefaultConfig();
+
+  console.log('Overwriting complete.');
 };
 
 //exports to be used in cli 

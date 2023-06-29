@@ -1,4 +1,3 @@
-/* Styles for the form container */
 body {
     display: flex;
     justify-content: flex-start;
@@ -8,14 +7,12 @@ body {
     background-color: #f57c7c;
   }
   
-  /* Styles for the form title */
   h1 {
     text-align: center;
     margin-top: 0;
     margin-bottom: 200px;
   }
   
-  /* Styles for the form content */
   .container {
     display: flex;
     flex-direction: column;
@@ -46,7 +43,6 @@ body {
     margin-bottom: 10px;
   }
   
-  /* Style for the submit button */
   input[type="submit"] {
     background-color: #ff0000;
     color: white;
@@ -60,7 +56,6 @@ body {
     background-color: #45a049;
   }
   
-  /* Style for error messages */
   .error-message {
     color: red;
     font-size: 14px;

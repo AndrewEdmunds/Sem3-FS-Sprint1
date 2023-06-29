@@ -35,14 +35,6 @@ const server = http.createServer((req, res) => {
       // Get form field values
       const { username, name, email, phone } = formData;
 
-      // Create a new user object
-      const newUser = {
-        username,
-        name,
-        email,
-        phone
-      };
-
       // Read the existing users from the users.json file
       const usersFilePath = path.join(__dirname, 'data', 'users.json');
       fs.readFile(usersFilePath, 'utf8', (err, usersContent) => {
@@ -59,13 +51,24 @@ const server = http.createServer((req, res) => {
           }
 
           // Generate a unique user key
-          const userKey = `user${Object.keys(users).length + 1}`;
+          const userKeys = Object.keys(users.users);
+          const lastUserKey = userKeys.length > 0 ? userKeys[userKeys.length - 1] : '';
+          const userNumber = Number(lastUserKey.slice(4)) + 1;
+          const userKey = `user${userNumber}`;
+
+          // Create a new user object
+          const newUser = {
+            username,
+            name,
+            email,
+            phone,
+          };
 
           // Add the new user to the existing users object
-          users[userKey] = newUser;
+          users.users[userKey] = newUser;
 
-          fs.writeFile(usersFilePath, JSON.stringify({ users: users }, null, 2), 'utf8', (err) => {
-            // ...
+          // Write the updated users object to the users.json file
+          fs.writeFile(usersFilePath, JSON.stringify(users, null, 2), 'utf8', (err) => {
             if (err) {
               res.writeHead(500);
               res.end('Internal Server Error');
@@ -76,7 +79,7 @@ const server = http.createServer((req, res) => {
               // Create a new token entry
               const newTokenEntry = {
                 userId: userKey,
-                expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+                expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
               };
 
               // Read the existing tokens from the tokens.json file
@@ -95,9 +98,10 @@ const server = http.createServer((req, res) => {
                   }
 
                   // Add the new token entry to the existing tokens object
-                  tokens[token] = newTokenEntry;
+                  tokens.tokens[token] = newTokenEntry;
 
-                  fs.writeFile(tokensFilePath, JSON.stringify({ tokens: tokens }, null, 2), 'utf8', (err) => {
+                  // Write the updated tokens object to the tokens.json file
+                  fs.writeFile(tokensFilePath, JSON.stringify(tokens, null, 2), 'utf8', (err) => {
                     if (err) {
                       res.writeHead(500);
                       res.end('Internal Server Error');
@@ -165,6 +169,9 @@ const port = 3000;
 server.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
+
+
 
 
 

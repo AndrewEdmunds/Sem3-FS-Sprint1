@@ -161,6 +161,53 @@ const updateUserCreds = (username) => {
     console.error('Error updating user credentials:', error);
   }
 };
+const addUserCreds = (username) => {
+  console.log(`Adding new credentials for ${username}...`);
+
+  try {
+    const users = getUsers();
+
+    const user = Object.values(users).find((u) => u.username === username);
+
+    if (!user) {
+      console.error('Error: User not found.');
+      return;
+    }
+
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+
+    rl.question('Enter new email: ', (newEmail) => {
+      rl.question('Enter new phone number: ', (newPhone) => {
+        rl.close();
+
+        newEmail = newEmail.trim();
+        newPhone = newPhone.trim();
+
+        if (newEmail !== '') {
+          user.emails = user.emails || [];
+          user.emails.push(newEmail);
+        }
+
+        if (newPhone !== '') {
+          user.phones = user.phones || [];
+          user.phones.push(newPhone);
+        }
+
+        const usersData = readDataFile('users.json');
+        usersData.users = users;
+
+        writeDataFile('users.json', usersData);
+
+        console.log(`Credentials added successfully for ${username}.`);
+      });
+    });
+  } catch (error) {
+    console.error('Error adding user credentials:', error);
+  }
+};
 
 //allows a user to be displayed from the users file based on the inputted key value
 const searchUser = (query) => {
@@ -191,6 +238,7 @@ const searchUser = (query) => {
 //exported to cli
 module.exports = {
   addDefaultTokens,
+  addUserCreds,
   addDefaultUsers,
   generateUserToken,
   getToken,

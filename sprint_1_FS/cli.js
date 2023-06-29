@@ -69,12 +69,10 @@ if (command === 'help') {
         username = process.argv[4];
         user.updateUserCreds(username);
         break;
-      case '--add':
-        const newUsername = process.argv[4];
-        const email = process.argv[5];
-        const phoneNumber = process.argv[6];
-        user.addUserCreds(newUsername, email, phoneNumber);
-        break;
+        case '--add':
+          username = process.argv[4];
+          user.addUserCreds(username);
+          break;
       case '--search':
         const query = process.argv[4]; // Retrieve the search query from process.argv[4]
         user.searchUser(query);
